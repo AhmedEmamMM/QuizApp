@@ -5,8 +5,12 @@ import 'result_info_contanier.dart';
 import 'your_score.dart';
 
 class YourScoreAndResultInfoStack extends StatelessWidget {
+  final int result;
+  final int numberOfQuestions;
   const YourScoreAndResultInfoStack({
     super.key,
+    required this.result,
+    required this.numberOfQuestions,
   });
 
   @override
@@ -23,12 +27,15 @@ class YourScoreAndResultInfoStack extends StatelessWidget {
               bottomRight: Radius.circular(20.r),
             ),
           ),
-          child: const YourScore(score: '100'),
+          child: YourScore(score: result.toString()),
         ),
-        const Positioned(
+        Positioned(
           bottom: 60,
           left: 22,
-          child: ResultInfoContanier(),
+          child: ResultInfoContanier(
+            result: result,
+            numberOfQuestions: numberOfQuestions,
+          ),
         ),
       ],
     );

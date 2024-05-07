@@ -3,8 +3,12 @@ import 'package:flutter/material.dart';
 import 'row_of_result.dart';
 
 class ResultInfoContanier extends StatelessWidget {
+  final int result;
+  final int numberOfQuestions;
   const ResultInfoContanier({
     super.key,
+    required this.result,
+    required this.numberOfQuestions,
   });
 
   @override
@@ -24,26 +28,27 @@ class ResultInfoContanier extends StatelessWidget {
           ),
         ],
       ),
-      child: const Padding(
-        padding: EdgeInsets.symmetric(horizontal: 18),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 18),
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               RowOfResult(
-                leftColoredText: ' 100%',
+                leftColoredText:
+                    ' ${((result / numberOfQuestions) * 100).toStringAsFixed(0)} %',
                 leftColor: Colors.deepPurple,
                 leftBlackText: 'Complution',
-                rightColoredText: ' 10',
+                rightColoredText: ' $numberOfQuestions',
                 rightColor: Colors.deepPurple,
                 rightBlackText: 'Total Questions',
               ),
-              SizedBox(height: 25),
+              const SizedBox(height: 25),
               RowOfResult(
-                leftColoredText: ' 7',
+                leftColoredText: ' $result',
                 leftColor: Colors.green,
                 leftBlackText: 'Correct',
-                rightColoredText: ' 3',
+                rightColoredText: ' ${numberOfQuestions - result}',
                 rightColor: Colors.red,
                 rightBlackText: 'Wrong',
                 isPadding: true,

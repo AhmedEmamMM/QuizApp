@@ -5,7 +5,13 @@ import 'widgets/play_again_rwview_share_row.dart';
 import 'widgets/your_score_and_result_info_stack.dart';
 
 class ResultPage extends StatelessWidget {
-  const ResultPage({super.key});
+  final int result;
+  final int numberOfQuestions;
+  const ResultPage({
+    super.key,
+    required this.result,
+    required this.numberOfQuestions,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +21,10 @@ class ResultPage extends StatelessWidget {
           SizedBox(
             height: 521.h,
             width: MediaQuery.of(context).size.width.w,
-            child: const YourScoreAndResultInfoStack(),
+            child: YourScoreAndResultInfoStack(
+              result: result,
+              numberOfQuestions: numberOfQuestions,
+            ),
           ),
           const PlayAgainReviewShareRow(),
           20.h.verticalSpace,

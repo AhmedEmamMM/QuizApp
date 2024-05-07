@@ -1,11 +1,11 @@
 class Question {
-   String? question;
-   List<dynamic>? answers;
-   String? correctAnswer;
+  String? question;
+  List<dynamic>? answers;
+  int? correctIndex;
 
-  Question.fromJson(Map<String,dynamic> json){
+  Question.fromJson(Map<String, dynamic> json) {
     question = json['question'];
     answers = json['answers'];
-    correctAnswer = json['correctAnswer'];
-  }  
+    correctIndex = json['correctIndex'];
+  }
 }

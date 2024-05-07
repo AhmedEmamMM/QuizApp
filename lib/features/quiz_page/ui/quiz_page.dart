@@ -17,9 +17,40 @@ class QuizPage extends StatefulWidget {
 
 class _QuizPageState extends State<QuizPage> {
   late List<dynamic> allQuestions;
-  int timer = 5;
-  int currentQuestion = 0;
-  int questionNumber = 1;
+  int? selectedIndex;
+  int questionNumber = 0;
+  int timer = 30;
+
+  int result = 0;
+
+  void choosedAnswer(int index) async {
+    selectedIndex = index;
+    final question = allQuestions[questionNumber];
+    if (selectedIndex == question.correctIndex) {
+      result++;
+    }
+    Future.delayed(const Duration(milliseconds: 2000), () => timer = 0);
+    setState(() {});
+  }
+
+  void goToNextQuestion() {
+    if (questionNumber < allQuestions.length - 1) {
+      questionNumber++;
+      timer = 30;
+      selectedIndex = null;
+      setState(() {});
+    } else {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => ResultPage(
+            result: result,
+            numberOfQuestions: allQuestions.length,
+          ),
+        ),
+      );
+    }
+  }
 
   void startTimer() {
     Future.doWhile(
@@ -32,16 +63,23 @@ class _QuizPageState extends State<QuizPage> {
             timer--;
           });
           return true;
-        } else if (currentQuestion < allQuestions.length - 1) {
+        } else if (questionNumber < allQuestions.length - 1) {
           setState(() {
-            currentQuestion++;
             questionNumber++;
-            timer = 5;
+            timer = 30;
+            selectedIndex = null;
           });
           return true;
         } else {
-          Navigator.pushReplacement(context,
-              MaterialPageRoute(builder: (context) => const ResultPage()));
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => ResultPage(
+                result: result,
+                numberOfQuestions: allQuestions.length,
+              ),
+            ),
+          );
           return false;
         }
       },
@@ -57,8 +95,6 @@ class _QuizPageState extends State<QuizPage> {
 
   @override
   Widget build(BuildContext context) {
-    var quizBloc = BlocProvider.of<QuizCubit>(context);
-
     return BlocBuilder<QuizCubit, QuizState>(
       builder: (context, state) {
         if (state is QuizLoading) {
@@ -114,7 +150,7 @@ class _QuizPageState extends State<QuizPage> {
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
                                       children: [
-                                        Text((questionNumber).toString(),
+                                        Text((questionNumber + 1).toString(),
                                             style: const TextStyle(
                                                 color: Colors.orange,
                                                 fontSize: 24,
@@ -128,7 +164,7 @@ class _QuizPageState extends State<QuizPage> {
                                     ),
                                   ),
                                   Text(
-                                      "Question $questionNumber/${allQuestions.length}",
+                                      "Question ${questionNumber + 1}/${allQuestions.length}",
                                       style: const TextStyle(
                                           color: Colors.deepPurple,
                                           fontSize: 16)),
@@ -138,7 +174,7 @@ class _QuizPageState extends State<QuizPage> {
                                     child: allQuestions.isEmpty
                                         ? const Text('No Questions')
                                         : Text(
-                                            allQuestions[currentQuestion]
+                                            allQuestions[questionNumber]
                                                 .question,
                                             style: const TextStyle(
                                                 fontSize: 20,
@@ -173,14 +209,21 @@ class _QuizPageState extends State<QuizPage> {
                       child: ListView.builder(
                         itemCount: allQuestions.isEmpty
                             ? 1
-                            : allQuestions[currentQuestion].answers.length,
-                        itemBuilder: (context, index) => Options(
-                          option: allQuestions.isEmpty
-                              ? 'No Answer to show'
-                              : allQuestions[currentQuestion].answers[index],
-                          correctAnswer: allQuestions.isEmpty
-                              ? 'There is no asnwer'
-                              : allQuestions[currentQuestion].correctAnswer,
+                            : allQuestions[questionNumber].answers.length,
+                        itemBuilder: (context, index) => GestureDetector(
+                          onTap: selectedIndex == null
+                              ? () => choosedAnswer(index)
+                              : null,
+                          child: Options(
+                            option: allQuestions.isEmpty
+                                ? 'No Answer to show'
+                                : allQuestions[questionNumber].answers[index],
+                            correctIndex:
+                                allQuestions[questionNumber].correctIndex,
+                            choosedAnswerIndex: selectedIndex,
+                            currentIndex: index,
+                            isSelected: selectedIndex == index,
+                          ),
                         ),
                       ),
                     ),
@@ -191,7 +234,8 @@ class _QuizPageState extends State<QuizPage> {
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
                           fontSize: 24),
-                      onPressed: () {},
+                      onPressed:
+                          selectedIndex == null ? goToNextQuestion : () {},
                     ),
                     30.verticalSpace,
                   ],

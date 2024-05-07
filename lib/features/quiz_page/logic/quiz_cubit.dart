@@ -12,26 +12,15 @@ part 'quiz_state.dart';
 class QuizCubit extends Cubit<QuizState> {
   QuizCubit() : super(QuizInitial());
 
-  int currentQuestion = 0;
-  int questionNumber = 1;
-  int correctAnswer = 0;
-  int wrongAnswer = 0;
-  int timerSeconds = 5;
-  String timerSecondsAsString = '5';
-  Color backGroudcolor = Colors.white;
-
   void fetchQuetions() async {
     emit(QuizLoading());
     await rootBundle
         .loadString("assets/json/question.json")
-        .then((questions) async {
-      final data = await json.decode(questions);
-      debugPrint('data: $data');
+        .then((jsonData) async {
+      final data = await json.decode(jsonData);
       List<dynamic> questionss = data['questions'];
-      debugPrint('questions: $questionss');
       List<Question> allQuestions =
           questionss.map((question) => Question.fromJson(question)).toList();
-      debugPrint('allQuestions: $allQuestions');
       emit(QuizSuccess(allQuestions));
     });
   }
