@@ -1,16 +1,13 @@
-# quizz_app
+# Quiz App
 
-A new Flutter project.
+Question Page
+![Screenshot_1715097042](https://github.com/AhmedEmamMM/QuizApp/assets/102431895/9c8d6db3-7e69-45c9-80d7-6fd687a52423)
 
-## Getting Started
+Correct Answer
+![Screenshot_1715097045](https://github.com/AhmedEmamMM/QuizApp/assets/102431895/6e1d39b1-9af3-4202-b0da-1cef2e146d91)
 
-This project is a starting point for a Flutter application.
+Worng Answer
+![Screenshot_1715097051](https://github.com/AhmedEmamMM/QuizApp/assets/102431895/82a2f72b-c171-45ed-9f4d-0ee648e1118c)
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Result info Page
+![Screenshot_1715097030](https://github.com/AhmedEmamMM/QuizApp/assets/102431895/523e8013-84b4-47e9-adb2-755cd59248d8)
