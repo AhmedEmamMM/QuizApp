@@ -70,10 +70,15 @@ class _QuizPageState extends State<QuizPage> {
             selectedIndex = null;
           });
           return true;
+        } else {
+          goToResultPage();
+          return false;
         }
-        return false;
       },
     );
+  }
+
+  void goToResultPage() {
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(
