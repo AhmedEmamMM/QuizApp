@@ -70,19 +70,18 @@ class _QuizPageState extends State<QuizPage> {
             selectedIndex = null;
           });
           return true;
-        } else {
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-              builder: (context) => ResultPage(
-                result: result,
-                numberOfQuestions: allQuestions.length,
-              ),
-            ),
-          );
-          return false;
         }
+        return false;
       },
+    );
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ResultPage(
+          result: result,
+          numberOfQuestions: allQuestions.length,
+        ),
+      ),
     );
   }
 
