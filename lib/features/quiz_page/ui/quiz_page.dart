@@ -17,29 +17,56 @@ class QuizPage extends StatefulWidget {
 
 class _QuizPageState extends State<QuizPage> {
   late List<dynamic> allQuestions;
+  Timer? timer;
+  Timer? timerOf2Sec;
   int? selectedIndex;
   int questionNumber = 0;
-  int timer = 30;
-
+  int timerSeconds = 5;
   int result = 0;
+  int twoSecondTimer = 2;
 
-  void choosedAnswer(int index) async {
-    selectedIndex = index;
-    final question = allQuestions[questionNumber];
-    if (selectedIndex == question.correctIndex) {
-      result++;
-    }
-    Future.delayed(const Duration(milliseconds: 2000), () => timer = 0);
-    setState(() {});
+  void startTimer() {
+    timer = Timer.periodic(const Duration(seconds: 1), (timer) async {
+      if (timerSeconds != 0) {
+        setState(() {
+          timerSeconds--;
+        });
+      } else {
+        timer.cancel();
+        startTwoSecondTimer();
+        setState(() {
+          selectedIndex = allQuestions[questionNumber].correctIndex;
+        });
+        await Future.delayed(const Duration(milliseconds: 2800));
+        goToNextQuestion();
+      }
+    });
+  }
+
+  void startTwoSecondTimer() {
+    timerOf2Sec = Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (twoSecondTimer != 0) {
+        setState(() {
+          twoSecondTimer--;
+        });
+      } else {
+        timerOf2Sec!.cancel();
+      }
+    });
   }
 
   void goToNextQuestion() {
+    if (selectedIndex != null) timerOf2Sec!.cancel();
     if (questionNumber < allQuestions.length - 1) {
-      questionNumber++;
-      timer = 30;
-      selectedIndex = null;
-      setState(() {});
+      setState(() {
+        questionNumber++;
+        timerSeconds = 5;
+        twoSecondTimer = 2;
+        selectedIndex = null;
+      });
+      startTimer();
     } else {
+      timer!.cancel();
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
@@ -52,42 +79,23 @@ class _QuizPageState extends State<QuizPage> {
     }
   }
 
-  void startTimer() {
-    Future.doWhile(
-      () async {
-        //this changes the value by -1 every second until it reaches zero
-        await Future.delayed(const Duration(seconds: 1));
-        if (timer != 0) {
-          setState(() {
-            //add text widget in your build method which takes t as the data
-            timer--;
-          });
-          return true;
-        } else if (questionNumber < allQuestions.length - 1) {
-          setState(() {
-            questionNumber++;
-            timer = 30;
-            selectedIndex = null;
-          });
-          return true;
-        } else {
-          goToResultPage();
-          return false;
-        }
-      },
-    );
+  void choosedAnswer(int index) async {
+    selectedIndex = index;
+    timer!.cancel();
+    startTwoSecondTimer();
+    setState(() {});
+    final question = allQuestions[questionNumber];
+    if (selectedIndex == question.correctIndex) result++;
+    await Future.delayed(
+        const Duration(milliseconds: 2800), () => goToNextQuestion());
   }
 
-  void goToResultPage() {
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(
-        builder: (context) => ResultPage(
-          result: result,
-          numberOfQuestions: allQuestions.length,
-        ),
-      ),
-    );
+  String textOfBTN() {
+    if (questionNumber < (allQuestions.length - 1)) {
+      return 'Next';
+    } else {
+      return 'Finish';
+    }
   }
 
   @override
@@ -95,6 +103,13 @@ class _QuizPageState extends State<QuizPage> {
     super.initState();
     BlocProvider.of<QuizCubit>(context).fetchQuetions();
     startTimer();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    timer!.cancel();
+    timerOf2Sec!.cancel();
   }
 
   @override
@@ -196,7 +211,7 @@ class _QuizPageState extends State<QuizPage> {
                                 radius: 42.r,
                                 backgroundColor: Colors.white,
                                 child: Text(
-                                  timer.toString(),
+                                  timerSeconds.toString(),
                                   style: const TextStyle(
                                     color: Colors.deepPurple,
                                     fontSize: 24,
@@ -233,13 +248,19 @@ class _QuizPageState extends State<QuizPage> {
                     ),
                     MyButton(
                       backGroudcolor: Colors.deepPurple,
-                      text: 'Next',
+                      text: (selectedIndex == null)
+                          ? textOfBTN()
+                          : '$twoSecondTimer',
                       textStyle: const TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
                           fontSize: 24),
-                      onPressed:
-                          selectedIndex == null ? goToNextQuestion : () {},
+                      onPressed: selectedIndex == null
+                          ? () {
+                              timer!.cancel();
+                              goToNextQuestion();
+                            }
+                          : () {},
                     ),
                     30.verticalSpace,
                   ],
