@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quizz_app/core/helpers/helpers.dart';
 import 'package:quizz_app/core/widgets/my_buttons.dart';
@@ -16,21 +18,48 @@ class HomaPage extends StatelessWidget {
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20.0),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            150.verticalSpace,
-            const Text(
-              'Welcome \n to my Quizy App',
-              style: TextStyle(
-                  fontSize: 40,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white),
+            70.verticalSpace,
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.3,
+              width: MediaQuery.of(context).size.width,
+              child: Stack(children: [
+                Center(
+                    child:
+                        Image.asset('assets/imgs/quiz_logo.png', height: 200)),
+                Positioned(
+                  bottom: 15,
+                  right: 55,
+                  child:
+                      Image.asset('assets/imgs/question_mark.png', height: 100),
+                ),
+              ]),
             ),
-            150.verticalSpace,
+            RichText(
+              text: const TextSpan(
+                text: "Welcome\n",
+                style: TextStyle(
+                    color: Colors.deepPurple,
+                    fontSize: 40,
+                    fontWeight: FontWeight.bold),
+                children: [
+                  TextSpan(
+                    text: "to Quizy App",
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.w500,
+                        fontSize: 30),
+                  )
+                ],
+              ),
+            ),
+            100.verticalSpace,
             MyButton(
               backGroudcolor: Colors.deepPurple,
               text: 'Start the Quiz',
-              textStyle: const TextStyle(
-                color: Colors.white,
+              textStyle: TextStyle(
+                color: hexColor('ffffff'),
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
               ),

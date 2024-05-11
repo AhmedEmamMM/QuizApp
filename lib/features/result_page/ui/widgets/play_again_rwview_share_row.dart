@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:quizz_app/core/helpers/helpers.dart';
+import 'package:quizz_app/features/quiz_page/ui/quiz_page.dart';
 
+import '../../../quiz_page/logic/quiz_cubit.dart';
 import 'clickable_icon_with_text.dart';
 
 class PlayAgainReviewShareRow extends StatelessWidget {
@@ -18,7 +22,12 @@ class PlayAgainReviewShareRow extends StatelessWidget {
             text: 'Play Again',
             backGroudcolor: Colors.deepPurple,
             iconData: Icons.refresh,
-            onTap: () {},
+            onTap: () => context.navigatoAndRemoveAll(
+              BlocProvider(
+                create: (context) => QuizCubit(),
+                child: const QuizPage(),
+              ),
+            ),
           ),
           ClickableIconWithText(
             text: 'Review Answer',

@@ -35,7 +35,14 @@ class Options extends StatelessWidget {
                           ? Colors.red
                           : Colors.white,
                   borderRadius: BorderRadius.circular(16),
-                  border: Border.all(width: 3, color: Colors.deepPurple),
+                  border: Border.all(
+                    width: 3,
+                    color: isCorrect
+                        ? Colors.green
+                        : isWrong
+                            ? Colors.red
+                            : Colors.white,
+                  ),
                 ),
                 child: Center(
                   child: Padding(
@@ -48,11 +55,10 @@ class Options extends StatelessWidget {
                           style: const TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 16),
                         ),
-                        Radio(
-                          value: option,
-                          groupValue: 2,
-                          onChanged: (value) {},
-                        ),
+                        isCorrect
+                            ? const Icon(Icons.check, color: Colors.white)
+                            : const Icon(Icons.disabled_by_default_outlined,
+                                color: Colors.white),
                       ],
                     ),
                   ),
@@ -63,7 +69,7 @@ class Options extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(16),
-                  border: Border.all(width: 3, color: Colors.deepPurple),
+                  border: Border.all(width: 3, color: Colors.white),
                 ),
                 child: Center(
                   child: Padding(
@@ -76,11 +82,11 @@ class Options extends StatelessWidget {
                           style: const TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 16),
                         ),
-                        Radio(
-                          value: option,
-                          groupValue: 2,
-                          onChanged: (value) {},
-                        ),
+                        CircleAvatar(
+                          backgroundColor: Colors.white,
+                          radius: 20,
+                          child: Container(),
+                        )
                       ],
                     ),
                   ),

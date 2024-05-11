@@ -36,6 +36,35 @@ extension Navigation on BuildContext {
   void pop() => Navigator.of(this).pop();
 }
 
+Color hexColor(String color) =>
+    Color(int.parse("FF${color.toUpperCase().replaceAll("#", '')}", radix: 16));
+
+class HexColor extends Color {
+  static int _getColor(String hex) {
+    String formattedHex = "FF${hex.toUpperCase().replaceAll("#", "")}";
+    return int.parse(formattedHex, radix: 16);
+  }
+
+  HexColor(final String hex) : super(_getColor(hex));
+}
+
+Widget myText({
+  required String text,
+  Color? color,
+  double? size,
+  FontWeight? fontWeight,
+  TextStyle? style,
+}) =>
+    Text(
+      text,
+      style: style ??
+          TextStyle(
+            color: color ?? Colors.black,
+            fontSize: size ?? 15,
+            fontWeight: fontWeight ?? FontWeight.normal,
+          ),
+    );
+
 SizedBox verticalSpace(double height) => SizedBox(height: height);
 SizedBox horizontalSpace(double width) => SizedBox(width: width);
 
@@ -45,7 +74,8 @@ double heightOfTheScreen(BuildContext context) =>
     MediaQuery.of(context).size.height;
 
 //format aouble calue into money
-String makeDoubleToMoneyToString(double price) => price.toStringAsFixed(2);
+String makeDoubleToMoneyToString(double price) =>
+    '\$ ${price.toStringAsFixed(2)}';
 
 // format list of addons into a string summary
   // String formatAddons(List<Addon> addons) {
