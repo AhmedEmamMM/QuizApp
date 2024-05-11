@@ -8,7 +8,7 @@ class CircleTimer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Positioned(
-      bottom: 245.h,
+      bottom: 227.h,
       left: 142.w,
       child: Center(
         child: CircleAvatar(

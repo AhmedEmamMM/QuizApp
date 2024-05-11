@@ -27,7 +27,7 @@ class Options extends StatelessWidget {
         ),
         child: choosedAnswerIndex != null
             ? Container(
-                height: 42.h,
+                height: 50.h,
                 decoration: BoxDecoration(
                   color: isCorrect
                       ? Colors.green
@@ -65,7 +65,7 @@ class Options extends StatelessWidget {
                 ),
               )
             : Container(
-                height: 42.h,
+                height: 50.h,
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(16),

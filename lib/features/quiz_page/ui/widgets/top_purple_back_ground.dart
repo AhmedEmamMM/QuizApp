@@ -8,7 +8,7 @@ class TopPurpleBackGround extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 270,
+      height: 250,
       width: double.infinity,
       decoration: const BoxDecoration(
           color: Colors.deepPurple,

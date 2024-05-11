@@ -20,7 +20,7 @@ class QuestionCardInfo extends StatelessWidget {
       left: 22,
       right: 22,
       child: Container(
-        height: 200,
+        height: 190,
         width: 350,
         decoration: BoxDecoration(
           color: Colors.white,
@@ -54,7 +54,10 @@ class QuestionCardInfo extends StatelessWidget {
               ),
             ),
             Text("Question ${questionNO + 1}/$noOfQuestions",
-                style: const TextStyle(color: Colors.deepPurple, fontSize: 16)),
+                style: const TextStyle(
+                    color: Colors.deepPurple,
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold)),
             Padding(
               padding:
                   const EdgeInsets.symmetric(horizontal: 15.0, vertical: 10),

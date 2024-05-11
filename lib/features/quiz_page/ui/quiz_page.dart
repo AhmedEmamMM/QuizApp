@@ -129,7 +129,7 @@ class _QuizPageState extends State<QuizPage> {
               body: Column(
                 children: [
                   SizedBox(
-                    height: 420,
+                    height: 400,
                     width: 400,
                     child: Stack(
                       children: [
@@ -187,7 +187,6 @@ class _QuizPageState extends State<QuizPage> {
                           : () {},
                     ),
                   ),
-                  30.verticalSpace,
                 ],
               ),
             ),
